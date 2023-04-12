@@ -15,10 +15,12 @@ searchForm.addEventListener('submit', (e) => {
 });
 
 function displayWeather(weather) {
+  let location = weather.name;
+  let temperature = weather.main.temp.toFixed(0);
   // Display weather data
   resultsDiv.innerHTML = `
-    <h3 id='location'>${weather.name}</h3>
-    <div id='temperature'>${weather.main.temp}<sup>&#8457;</sup></div>
+    <h3 id='location'>${location}</h3>
+    <div id='temperature'>${temperature}<sup>&#8457;</sup></div>
     <div id='conditions'>${weather.weather[0].main}</div>
   `;
 }
