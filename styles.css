@@ -63,6 +63,15 @@ li {
   list-style: none;
 }
 
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:hover {
+  color: #a599b5;
+}
+
 form {
   display: flex;
   width: 100%;
@@ -133,6 +142,21 @@ form button[type='submit']:hover {
   right: -1.5rem;
 }
 
+#results #save-btn > div {
+  width: 2px;
+  height: 0.7rem;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#results #save-btn > div:after {
+  content: '';
+  width: 2px;
+  height: 0.7rem;
+  background: rgba(0, 0, 0, 0.4);
+  transform: rotate(90deg);
+  position: absolute;
+}
+
 #results #save-btn:hover {
   cursor: pointer;
   border: 1px solid #a599b5;
@@ -144,6 +168,10 @@ form button[type='submit']:hover {
 #results #error {
   text-align: center;
   color: rgba(255, 0, 0, 0.591);
+}
+
+#already-saved {
+  color: green;
 }
 
 #results #location {
@@ -180,21 +208,90 @@ form button[type='submit']:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#saved-locations li #actions {
+  display: flex;
+  align-items: center;
+  opacity: 0.3;
+}
+
+#saved-locations li #actions:hover {
+  opacity: 1;
 }
 
 #saved-locations li #actions #delete-btn {
   margin: 1rem auto;
   border-radius: 50%;
   border: 1px solid rgba(0, 0, 0, 0.4);
-  color: rgba(0, 0, 0, 0.4);
   width: 1.5rem;
   height: 1.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.3;
+}
+
+#saved-locations li #actions #delete-btn > div {
+  width: 2px;
+  height: 0.7rem;
+  background: rgba(0, 0, 0, 0.4);
+  transform: rotate(45deg);
+}
+
+#saved-locations li #actions #delete-btn > div:after {
+  content: '';
+  width: 2px;
+  height: 0.7rem;
+  background: rgba(0, 0, 0, 0.4);
+  transform: rotate(90deg);
+  position: absolute;
+}
+
+#saved-locations li #actions #delete-btn:hover,
+#saved-locations li #actions #run-btn:hover {
+  border: 1px solid #a599b5;
+  cursor: pointer;
+}
+
+#saved-locations li #actions #delete-btn:hover > div,
+#saved-locations li #actions #delete-btn:hover > div:after,
+#saved-locations li #actions #run-btn:hover > div,
+#saved-locations li #actions #run-btn:hover > div:after {
+  background: #a599b5;
+}
+
+#saved-locations li #actions #run-btn {
+  margin-right: 0.4rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+#saved-locations li #actions #run-btn > div {
+  width: 2px;
+  height: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  transform: rotate(45deg);
+  position: absolute;
+  top: 32%;
+  left: 33%;
+}
+
+#saved-locations li #actions #run-btn > div:after {
+  content: '';
+  width: 2px;
+  height: 0.5rem;
+  background: rgba(0, 0, 0, 0.4);
+  transform: rotate(90deg);
+  position: absolute;
+  top: -50%;
+  left: 200%;
 }
 
 footer {

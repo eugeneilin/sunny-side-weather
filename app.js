@@ -13,7 +13,7 @@ const errorDiv = document.querySelector('#error');
 // Weather API
 const apiKey = 'b93e791f89b4b9f5dab8d41a45135cf5';
 
-// Display weather data function
+// Get weather data
 async function getWeather(location) {
   let response = await fetch(
     `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=imperial`
@@ -99,22 +99,51 @@ class SavedLocation {
       let actionsDiv = document.createElement('div');
       actionsDiv.id = 'actions';
       li.appendChild(actionsDiv);
-      // create delete btn inside actions div
-      let deleteBtn = document.createElement('div');
-      deleteBtn.id = 'delete-btn';
-      actionsDiv.appendChild(deleteBtn);
       // create run btn inside actions div
       let runBtn = document.createElement('div');
       runBtn.id = 'run-btn';
       actionsDiv.appendChild(runBtn);
+      let runIcon = document.createElement('div');
+      runBtn.appendChild(runIcon);
+      // create delete btn inside actions div
+      let deleteBtn = document.createElement('div');
+      deleteBtn.id = 'delete-btn';
+      actionsDiv.appendChild(deleteBtn);
+      let deleteIcon = document.createElement('div');
+      deleteBtn.appendChild(deleteIcon);
       // append li to ul
       savedLocationsUl.appendChild(li);
+      // if li.textContent === locationDiv.textContent, hide saveBtn
+      if (li.textContent === locationDiv.textContent) {
+        saveBtn.style.display = 'none';
+      } else {
+        saveBtn.style.display = 'flex';
+      }
+
+      // Event Listener for run btn
+      runBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // get location from li
+        const location = e.target.parentElement.parentElement.textContent;
+        // call runLocation() method
+        newSavedLocation.runLocation(location);
+      });
+
+      // event listener for delete btn
     });
   }
   // filter
   removeLocation(id) {
     this.areas = this.areas.filter((area) => id !== area.id);
-    // update DOM
+  }
+
+  runLocation(location) {
+    getWeather(location);
+    if (li.textContent === locationDiv.textContent) {
+      saveBtn.style.display = 'none';
+    } else {
+      saveBtn.style.display = 'flex';
+    }
   }
 }
 
