@@ -113,7 +113,6 @@ class SavedLocation {
       deleteBtn.appendChild(deleteIcon);
       // append li to ul
       savedLocationsUl.appendChild(li);
-      // if li.textContent === locationDiv.textContent, hide saveBtn
       if (li.textContent === locationDiv.textContent) {
         saveBtn.style.display = 'none';
       } else {
@@ -126,17 +125,19 @@ class SavedLocation {
         // get location from li
         const location = e.target.parentElement.parentElement.textContent;
         // call runLocation() method
-        newSavedLocation.runLocation(location);
+        newSavedLocation.runLocation(location); // throws error
       });
 
       // event listener for delete btn
+      deleteBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // get id from li
+        const id = e.target.parentElement.parentElement.id;
+        // call removeLocation() method
+        newSavedLocation.removeLocation(id);
+      }); // --- Doesn't work :/
     });
   }
-  // filter
-  removeLocation(id) {
-    this.areas = this.areas.filter((area) => id !== area.id);
-  }
-
   runLocation(location) {
     getWeather(location);
     if (li.textContent === locationDiv.textContent) {
@@ -145,7 +146,13 @@ class SavedLocation {
       saveBtn.style.display = 'flex';
     }
   }
+  removeLocation(id) {
+    this.areas = this.areas.filter((area) => id !== area.id);
+  }
 }
+
+// --- add a timestamp to the last update for selected areas’ data
+// --- NOT SURE ABOUT THIS ONE
 
 // Instantiate new SavedLocation object
 const newSavedLocation = new SavedLocation(location);
