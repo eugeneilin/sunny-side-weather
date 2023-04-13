@@ -78,7 +78,7 @@ class SavedLocation {
   constructor(location) {
     this.totalAreas = 0;
     this.areas = [];
-    this.id = this.totalAreas;
+    this.id = this.totalAreas; //
     this.location = location;
   }
   saveLocation(area) {
@@ -92,6 +92,26 @@ class SavedLocation {
         alreadySaved.textContent = '';
       }, 3000);
     }
+    // update DOM
+    savedLocationsUl.innerHTML = '';
+
+    this.updateRemove();
+  }
+  runLocation(location) {
+    getWeather(location);
+    if (li.textContent === locationDiv.textContent) {
+      saveBtn.style.display = 'none';
+    } else {
+      saveBtn.style.display = 'flex';
+    }
+  }
+  removeLocation(cityName) {
+    console.log(cityName);
+    this.areas = this.areas.filter((area) => cityName !== area);
+    console.log(this.areas);
+    this.updateRemove();
+  }
+  updateRemove() {
     savedLocationsUl.innerHTML = '';
     this.areas.forEach((area) => {
       // create li
@@ -124,43 +144,21 @@ class SavedLocation {
       // Event Listener for run btn
       runBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // set location to li value
         this.location = e.target.parentElement.parentElement.textContent;
-        // call runLocation() method
-        // newSavedLocation.runLocation(location); // throws error
         getWeather(this.location);
       });
+
+      // get cityName for removeLocation()
+      let cityName = area;
 
       // event listener for delete btn
       deleteBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // get id from li
-        const id = e.target.parentElement.parentElement.id;
-        // call removeLocation() method
-        newSavedLocation.removeLocation(id);
-      }); // --- Doesn't work :/
+        newSavedLocation.removeLocation(cityName);
+      });
     });
   }
-  runLocation(location) {
-    getWeather(location);
-    if (li.textContent === locationDiv.textContent) {
-      saveBtn.style.display = 'none';
-    } else {
-      saveBtn.style.display = 'flex';
-    }
-  }
-  removeLocation(id) {
-    this.areas = this.areas.filter((area) => id !== area.id);
-  }
 }
-
-// create locations array
-// store locations in array. If this.location.index of !== -1, (does exist), then we don't display add
-
-// if (this.location.indexOf(-1))
-
-// --- add a timestamp to the last update for selected areas’ data
-// --- NOT SURE ABOUT THIS ONE
 
 // Instantiate new SavedLocation object
 const newSavedLocation = new SavedLocation(location);
@@ -168,13 +166,15 @@ const newSavedLocation = new SavedLocation(location);
 // Event listener for saveLocation btn, call saveLocation() method
 saveBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  // get location from resultsDiv
   const location = resultsDiv.querySelector('#location').textContent;
-  // call saveLocation() method
   newSavedLocation.saveLocation(location);
 });
 
-// On page load
+// Focus on input on page load
 document.addEventListener('DOMContentLoaded', function () {
   searchInput.focus();
 });
+
+// TODO: change backgorund color based on conditions
+// TODO: add a toggle for F/C
+// add button after deleted....
