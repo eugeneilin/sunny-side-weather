@@ -75,15 +75,17 @@ searchForm.addEventListener('submit', (e) => {
 
 // Create object for saved locations
 class SavedLocation {
-  constructor() {
+  constructor(location) {
     this.totalAreas = 0;
     this.areas = [];
     this.id = this.totalAreas;
+    this.location = location;
   }
   saveLocation(area) {
     this.id = this.totalAreas++;
     if (!this.areas.includes(area)) {
       this.areas.push(area);
+      console.log(this.areas);
     } else {
       alreadySaved.textContent = 'Location already saved to favorites.';
       setTimeout(() => {
@@ -122,10 +124,11 @@ class SavedLocation {
       // Event Listener for run btn
       runBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        // get location from li
-        const location = e.target.parentElement.parentElement.textContent;
+        // set location to li value
+        this.location = e.target.parentElement.parentElement.textContent;
         // call runLocation() method
-        newSavedLocation.runLocation(location); // throws error
+        // newSavedLocation.runLocation(location); // throws error
+        getWeather(this.location);
       });
 
       // event listener for delete btn
@@ -150,6 +153,11 @@ class SavedLocation {
     this.areas = this.areas.filter((area) => id !== area.id);
   }
 }
+
+// create locations array
+// store locations in array. If this.location.index of !== -1, (does exist), then we don't display add
+
+// if (this.location.indexOf(-1))
 
 // --- add a timestamp to the last update for selected areas’ data
 // --- NOT SURE ABOUT THIS ONE
