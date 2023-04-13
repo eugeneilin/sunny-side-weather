@@ -15,14 +15,29 @@
     <h1>Sunny Side Weather</h1>
 
     <form id="search-form">
-      <label for="search-input">Search for a location</label>
-      <input type="text" id="search-input" placeholder="Enter a location">
+      <input type="text" id="search-input" placeholder="Search for a city">
       <button type="submit">Search</button>
     </form>
 
     <div id="results">
+      <div id='results-header'>
+        <h3 id="error"></h3>
+        <h3 id='location'>
+          <!-- Content injected by JavaScript -->
+        </h3>
+        <span id='save-btn'>+</span>
+      </div>
+      <div id="already-saved">
+        <!-- Content injected by JavaScript -->
+      </div>
+      <div id="temp-etc">
+        <!-- Content injected by JavaScript -->
+      </div>
+      <ul id="saved-locations"></ul>
     </div>
   </main>
+
+  <footer>Designed and developed by <a href="https://eugeneilin.dev/" target="_blank">Eugene Ilin</a>.</footer>
 
   <script src="app.js" defer></script>
 
