@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;800&display=swap');
 
+/* Resets */
 * {
   margin: 0;
   padding: 0;
@@ -8,6 +9,7 @@
   outline: 0;
 }
 
+/* General */
 body {
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
@@ -19,7 +21,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-image: linear-gradient(to bottom, #87ceeb, #ffffff);
+  background-image: linear-gradient(to bottom, #cbc0d9, #ffffff);
 }
 
 main {
@@ -41,7 +43,7 @@ main {
 h1 {
   text-transform: uppercase;
   text-align: center;
-  background: -webkit-linear-gradient(#cddddd, #a599b5, #051014);
+  background: -webkit-linear-gradient(#a599b5, #373f42);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -51,6 +53,7 @@ h1 {
 button {
   padding: 0.5rem;
   font-size: 1rem;
+  background: #cbcbcb;
 }
 
 button:hover {
@@ -72,6 +75,23 @@ a:hover {
   color: #a599b5;
 }
 
+/* Bg colors based on condition codes */
+/* 200-799 */
+.bg-black {
+  background-image: linear-gradient(to bottom, #494d4d, #c6bcbc);
+}
+
+/* 800 */
+.bg-blue {
+  background-image: linear-gradient(to bottom, #87ceeb, #ffffff);
+}
+
+/* 801 and above */
+.bg-gray {
+  background-image: linear-gradient(to bottom, #b0bec5, #eceff1);
+}
+
+/* Form */
 form {
   display: flex;
   width: 100%;
@@ -81,12 +101,13 @@ form {
 }
 
 form input[type='text'] {
-  border: 1px solid rgba(122, 122, 122, 0.1);
+  border: 1px solid rgba(122, 122, 122, 0.2);
   width: 100%;
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
   padding: 0.5rem;
   font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.6);
 }
 
 form input[type='text']:focus,
@@ -106,8 +127,8 @@ form button[type='submit']:hover {
   cursor: pointer;
 }
 
+/* Results */
 #results {
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
   margin-top: 1rem;
   padding: 1rem;
   width: 100%;
@@ -118,6 +139,9 @@ form button[type='submit']:hover {
   align-items: center;
 }
 
+/* Toggle */
+
+/* Weather data */
 #results #results-header {
   display: flex;
   justify-content: space-between;
@@ -193,15 +217,22 @@ form button[type='submit']:hover {
   font-weight: 300;
 }
 
-#results #conditions {
+#results #temperature:hover {
+  cursor: pointer;
+  color: #b7a9c9;
+}
+
+#results #conditions-description {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 300;
   color: rgba(0, 0, 0, 0.4);
 }
 
+/* Saved Locations */
 #saved-locations {
   width: 100%;
+  margin-top: 1rem;
 }
 
 #saved-locations li {
@@ -294,6 +325,7 @@ form button[type='submit']:hover {
   left: 200%;
 }
 
+/* Footer */
 footer {
   width: 100%;
   text-align: center;

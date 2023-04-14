@@ -1,11 +1,13 @@
 // DOM elements
+const body = document.querySelector('body');
 const searchForm = document.querySelector('#search-form');
 const searchInput = document.querySelector('#search-input');
 const resultsDiv = document.querySelector('#results');
 const resultsHeader = document.querySelector('#results-header');
 const locationDiv = document.querySelector('#location');
 const saveBtn = document.querySelector('#save-btn');
-const tempDivEtc = document.querySelector('#temp-etc');
+const tempDiv = document.querySelector('#temp-etc');
+const conditionsDiv = document.querySelector('#conditions-description');
 const savedLocationsUl = document.querySelector('#saved-locations');
 const alreadySaved = document.querySelector('#already-saved');
 const errorDiv = document.querySelector('#error');
@@ -25,7 +27,8 @@ async function getWeather(location) {
       return {
         location: res.name,
         temperature: res.main.temp,
-        conditions: res.weather[0].main,
+        conditionsCode: res.weather[0].id,
+        description: res.weather[0].description,
       };
     })
     .catch((err) => {
@@ -43,14 +46,52 @@ function displayError(err) {
 function displayWeather(weather) {
   let location = weather.location;
   let temperature = weather.temperature.toFixed(0);
-  let conditions = weather.conditions;
+  let conditionsCode = weather.conditionsCode;
+  let description = weather.description;
   // Display weather data
   locationDiv.textContent = location;
-  tempDivEtc.innerHTML = `
+  tempDiv.innerHTML = `
     <div id='temperature'>${temperature}<sup>&#8457;</sup></div>
-    <div id='conditions'>${conditions}</div>
   `;
+  conditionsDiv.textContent = description;
   saveBtn.style.display = 'flex';
+  // Bg colors based on condition codes
+  if (conditionsCode >= 200 && conditionsCode <= 799) {
+    body.classList.add('bg-black');
+    body.classList.remove('bg-blue');
+    body.classList.remove('bg-gray');
+  } else if (conditionsCode === 800) {
+    body.classList.add('bg-blue');
+    body.classList.remove('bg-black');
+    body.classList.remove('bg-gray');
+  } else if (conditionsCode >= 801 && conditionsCode <= 899) {
+    body.classList.add('bg-gray');
+    body.classList.remove('bg-black');
+    body.classList.remove('bg-blue');
+  }
+
+  // declare variable for tempDiv event listener
+  let isFahrenheit = true;
+
+  // Toggle units event listener
+  tempDiv.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    isFahrenheit = !isFahrenheit;
+
+    function convertedTemp() {
+      if (isFahrenheit) {
+        return convertToFahrenheit(convertToCelsius(temperature));
+      } else {
+        return convertToCelsius(temperature);
+      }
+    }
+    let unitSymbol = isFahrenheit ? '&#8457;' : '&#8451;';
+
+    tempDiv.innerHTML = `
+    <div id='temperature'>${convertedTemp()}<sup>${unitSymbol}</sup></div>
+  `;
+  });
 }
 
 // Event listener for search form submission
@@ -61,15 +102,20 @@ searchForm.addEventListener('submit', (e) => {
     getWeather(location);
     searchInput.value = '';
     errorDiv.textContent = '';
-    clearTimeout(); // error message is not displaying for 3 full seconds
+    clearTimeout(this.timeoutID);
   } else {
     displayError('Please enter a city.');
-    setTimeout(() => {
+    this.timeoutID = setTimeout(() => {
       errorDiv.textContent = '';
-    }, 3000); // error message is not displaying for 3 full seconds
+    }, 3000);
     locationDiv.textContent = '';
-    tempDivEtc.innerHTML = '';
+    tempDiv.innerHTML = '';
+    conditionsDiv.textContent = '';
     saveBtn.style.display = 'none';
+    body.backgroundImage = 'linear-gradient(to bottom, #cbc0d9, #ffffff)';
+    body.classList.remove('bg-black');
+    body.classList.remove('bg-blue');
+    body.classList.remove('bg-gray');
   }
 });
 
@@ -78,14 +124,13 @@ class SavedLocation {
   constructor(location) {
     this.totalAreas = 0;
     this.areas = [];
-    this.id = this.totalAreas; //
+    this.id = this.totalAreas;
     this.location = location;
   }
   saveLocation(area) {
     this.id = this.totalAreas++;
     if (!this.areas.includes(area)) {
       this.areas.push(area);
-      console.log(this.areas);
     } else {
       alreadySaved.textContent = 'Location already saved to favorites.';
       setTimeout(() => {
@@ -106,9 +151,7 @@ class SavedLocation {
     }
   }
   removeLocation(cityName) {
-    console.log(cityName);
     this.areas = this.areas.filter((area) => cityName !== area);
-    console.log(this.areas);
     this.updateRemove();
   }
   updateRemove() {
@@ -160,6 +203,15 @@ class SavedLocation {
   }
 }
 
+// Conversion functions
+function convertToFahrenheit(temp) {
+  return Math.round(temp * 1.8 + 32);
+}
+
+function convertToCelsius(temp) {
+  return Math.round((temp - 32) / 1.8);
+}
+
 // Instantiate new SavedLocation object
 const newSavedLocation = new SavedLocation(location);
 
@@ -175,6 +227,4 @@ document.addEventListener('DOMContentLoaded', function () {
   searchInput.focus();
 });
 
-// TODO: change backgorund color based on conditions
-// TODO: add a toggle for F/C
 // add button after deleted....
