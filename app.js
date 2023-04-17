@@ -91,6 +91,7 @@ function displayWeather(weather) {
     tempDiv.innerHTML = `
     <div id='temperature'>${convertedTemp()}<sup>${unitSymbol}</sup></div>
   `;
+    // add info to click on temp to toggle units
   });
 }
 
